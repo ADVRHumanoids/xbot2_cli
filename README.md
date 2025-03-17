@@ -49,6 +49,9 @@ xbot2 filter set 10.0
 # disable filter
 xbot2 filter enable false
 
+# watch execution statustics (refreshed every half second)
+xbot2 watch stats -n 0.5
+
 # clear the internal cache (this is used to avoid querying xbot2 for params and plugins on each TAB press)
 xbot2 clear
 ```
