@@ -83,11 +83,11 @@ def main():
     args = parser.parse_args()
     
     ctx.init_ros()
-    
-    if hasattr(args, 'func'):
+
+    try:    
         args.func(args)
-    else:
-        parser.print_help()
+    except TimeoutError:
+        print("timeout error: check that xbot2 is running")
 
 if __name__ == "__main__":
     main()

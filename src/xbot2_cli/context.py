@@ -7,7 +7,7 @@ class Context:
     SRV_TIMEOUT_SEC = 1
     
     def __init__(self):
-        user = os.getlogin()
+        user = os.getuid()
         self.cache_file = f'/tmp/xbot2_cli_cache_{user}.yaml'
         self.node = None
         
