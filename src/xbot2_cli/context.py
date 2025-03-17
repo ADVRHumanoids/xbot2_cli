@@ -69,7 +69,7 @@ class Context:
 
     def set_param(self, args, verbose=True):
         from xbot_msgs.srv import SetString
-        cli = self.node.create_client(SetString, 'xbotcore/set_parameters')
+        cli = self.node.create_client(SetString, 'xbotcore/set_parameter_values')
         req = SetString.Request()
         req.request = f'{args.name}: "{args.value}"'
         res: SetString.Response = self.call_service(cli, req)
