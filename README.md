@@ -1,4 +1,3 @@
-# xbot2_cli/xbot2_cli/README.md
 
 # xbot2_cli
 
