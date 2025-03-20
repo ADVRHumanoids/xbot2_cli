@@ -2,7 +2,7 @@ import argparse
 import argcomplete
 import logging
 
-from xbot2_cli.context import Context
+from xbot2_cli.xbot2_context import Context
 
 
 
@@ -88,6 +88,8 @@ def main():
         args.func(args)
     except TimeoutError:
         print("timeout error: check that xbot2 is running")
+    except AttributeError:
+        parser.print_help()
 
 if __name__ == "__main__":
     main()

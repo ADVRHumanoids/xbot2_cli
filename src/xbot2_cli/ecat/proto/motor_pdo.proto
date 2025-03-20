@@ -1,0 +1,112 @@
+syntax = "proto2";
+
+package iit.advr;
+
+message Motor_tx_pdo {
+    required float  pos_ref     = 1;
+    required uint32 fault_ack   = 2;
+    required int32  gainP       = 3;
+    required int32  gainD       = 4;
+    required uint32 ts          = 5;
+}
+message Motor_rx_pdo {
+    required float  link_pos    = 1;
+    required float  motor_pos   = 2;
+    required float  pos_ref_fb  = 3;
+    required uint32 temperature = 4;
+    required int32  torque      = 5;
+    required uint32 fault       = 6;
+    required uint32 rtt         = 7;
+}
+
+message Motor_xt_tx_pdo {
+    required float  pos_ref     = 1;
+    required float  vel_ref     = 2;
+    required float  tor_ref     = 3;
+    required float  gain_0      = 4;
+    required float  gain_1      = 5;
+    required float  gain_2      = 6;
+    required float  gain_3      = 7;
+    required float  gain_4      = 8;
+    required uint32 fault_ack   = 9;
+    required uint32 ts          = 10;
+    optional uint32 op_idx_aux  = 11;
+    optional float  aux         = 12;
+}
+
+message Motor_xt_rx_pdo {
+    required float  link_pos    = 1;
+    required float  motor_pos   = 2;
+    required float  link_vel    = 3;
+    required float  motor_vel   = 4;
+    required float  torque      = 5;
+    required uint32 temperature = 6;
+    required uint32 fault       = 7;
+    required uint32 rtt         = 8;
+    optional uint32 op_idx_ack  = 9;
+    optional float aux          = 10;
+    optional float motor_temp   = 11;
+    optional float board_temp   = 12;
+    required float  pos_ref     = 13;
+    required float  vel_ref     = 14;
+    required float  tor_ref     = 15;
+    optional uint32 cmd_aux_sts = 16;
+}
+
+
+message McHand_rx_pdo {
+    required float  link_pos    = 1;
+    required float  motor_pos   = 2;
+    required float  link_vel    = 3;
+    required float  motor_vel   = 4;
+    required int32  analog_1    = 5;
+    required uint32 temperature = 6;
+    required uint32 fault       = 7;
+    required uint32 rtt         = 8;
+    optional int32  analog_2    = 9;
+    optional int32  analog_3    = 10;
+}
+
+
+message HeriHand_tx_pdo {
+    required float  pos_ref    = 1;
+    optional float  pos_ref_2  = 2;
+    optional int32  vel_ref    = 3;
+    optional int32  tor_ref    = 4;
+    optional float  gain_0     = 5;
+    optional float  gain_1     = 6;
+    optional float  gain_2     = 7;
+    optional float  gain_3     = 8;
+    optional float  gain_4     = 9;
+    optional uint32 fault_ack  = 10;
+    optional uint32 ts         = 11;
+    optional uint32 op_idx_aux = 12;
+    optional float  aux        = 13;
+    // heri3
+    optional float  pos_ref_3  = 14;
+}
+message HeriHand_rx_pdo {
+    required float  motor_pos   = 1;
+    optional float  motor_pos_2 = 2;
+    optional int32  motor_vel   = 3;
+    optional int32  motor_vel_2 = 4;
+    optional uint32 m1_an_1     = 5;
+    optional uint32 m1_an_2     = 6;
+    optional uint32 m1_an_3     = 7;
+    optional uint32 m2_an_1     = 8;
+    optional uint32 m2_an_2     = 9;
+    optional uint32 m2_an_3     = 10;
+    optional int32  m1_curr     = 11;
+    optional int32  m2_curr     = 12;
+    optional uint32 fault       = 13;
+    optional uint32 rtt         = 14;
+    optional uint32 op_idx_ack  = 15;
+    optional float  aux         = 16;
+    // heri3
+    optional float  motor_pos_3 = 17;
+    optional uint32 m3_an_1     = 18;
+    optional uint32 m3_an_2     = 19;
+    optional int32  m3_curr     = 20;
+    
+}
+    

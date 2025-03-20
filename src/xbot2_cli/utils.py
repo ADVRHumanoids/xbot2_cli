@@ -1,3 +1,7 @@
+import os
+import yaml
+import time
+
 def print_table(table):
     table = list(table)
     longest_cols = [
@@ -27,3 +31,26 @@ def format_float(value: float, precision=2):
         return f'{value:.{precision}e}'
     # fixed point notation
     return f'{value:.{precision}f}'
+
+def as_list(value, check_none=True):
+    if check_none and value is None:
+        raise ValueError('Value cannot be None')
+    if not check_none and value is None:
+        return []
+    if isinstance(value, list):
+        return value
+    return [value]
+
+def fetch_from_cache(cache_file: str, key: list[str]):
+    if not os.path.exists(cache_file):
+        return None
+    cache_age = time.time() - os.path.getmtime(cache_file)
+    if cache_age > 60:
+        return None
+    with open(cache_file, 'r') as f:
+        cache = yaml.safe_load(f)
+    return {k: cache[k] for k in key}
+
+def write_to_cache(cache_file: str, data: dict):
+    with open(cache_file, 'w') as f:
+        yaml.dump(data, f)

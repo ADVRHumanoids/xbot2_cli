@@ -1,0 +1,33 @@
+syntax = "proto2";
+
+package iit.advr;
+
+message Dummy {
+    repeated float  vect_f = 1;
+    repeated uint32 vect_ui = 2;
+    optional uint32 rtt = 3;
+}
+
+message Generic_rx_pdo {
+    optional uint32 rtt         = 1;
+    optional uint32 op_idx_ack  = 2;
+    optional float  aux         = 3;
+    repeated int64  vect_int    = 4;
+    repeated float  vect_float  = 5;
+    
+}
+
+message Generic_tx_pdo {
+    optional uint32 ts          = 1;
+    optional uint32 op_idx_aux  = 2;
+    optional float  aux         = 3;
+
+}
+
+message Client_pipe {
+    enum Type { 
+        CONNECT = 1;
+        QUIT    = 2;
+    }
+    required Type   type = 1;
+}

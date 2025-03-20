@@ -152,7 +152,27 @@ class Context:
         except KeyboardInterrupt:
             pass
                 
-                
+    def watch_health_state(self, args):
+        from xbot_msgs.msg import JointState
+        import rclpy
+        prev_time = time.time()
+        f = utils.format_float
+        def health_callback(msg: JointState):
+            nonlocal prev_time
+            now = time.time()
+            dt = now - prev_time
+            if dt < args.num_secs:
+                return
+            prev_time = now
+            # clear console
+            print("\033[H\033[J")
+            rows = [
+                ['Name', 'Fault', 'Temperature (motor)', 'Temparature (board)']
+            ]
+            for j in msg.joint:
+                row = [j.name, f(j.position), f(j.velocity), f(j.effort), j.health_state]
+                rows.append(row)
+            utils.print_table(rows)
 
     def set_filter(self, args, verbose=True):
         from xbot_msgs.srv import SetFilterProperties

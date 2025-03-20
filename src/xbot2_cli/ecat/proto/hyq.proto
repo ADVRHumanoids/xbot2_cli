@@ -1,0 +1,74 @@
+syntax = "proto2";
+
+package iit.advr;
+
+message HyqKnee_rx_pdo {
+    optional float  encoder_position    = 1;       
+    optional float  force               = 2;         
+    optional float  pressure_1          = 3;           
+    optional float  pressure_2          = 4;    
+    optional float  current             = 5;          
+    optional float  temperature         = 6;   
+    optional uint32 fault               = 7;
+    optional uint32 rtt                 = 8;
+    optional uint32 op_idx_ack          = 9;
+    optional float  aux                 = 10;
+
+    optional float current_ref_fb       = 11;
+    optional float position_ref_fb      = 12;
+    optional float force_ref_fb         = 13;
+    
+}
+
+message HyqKnee_tx_pdo {
+    optional float current_ref      = 1;
+    optional float position_ref     = 2;
+    optional float force_ref        = 3;
+    optional float gain_0           = 4;
+    optional float gain_1           = 5;
+    optional float gain_2           = 6;
+    optional float gain_3           = 7;
+    optional float gain_4           = 8;
+    optional uint32 fault_ack       = 9;
+    optional uint32 ts              = 10;
+    optional uint32 op_idx_aux      = 11;
+    optional float  aux             = 12;
+}
+
+message HyqHpu_rx_pdo {
+    optional uint32  pressure    = 1;       
+    optional uint32  statusWord  = 2;         
+    optional uint32  vesc1BoardTemp = 3;           
+    optional uint32  vesc1MotTemp   = 4;           
+    optional uint32  vesc2BoardTemp = 5;           
+    optional uint32  vesc2MotTemp   = 6;           
+    optional float   vesc1ActCur    = 7;
+    optional uint32  vesc1ActSpd    = 8;
+    optional uint32  vesc1Status    = 9;
+    optional float   vesc2ActCur    = 10;
+    optional uint32  vesc2ActSpd    = 11;
+    optional uint32  vesc2Status    = 12;
+    optional uint32  temp1          = 13;
+    optional uint32  temp2          = 14;
+    optional uint32  temp3          = 15;
+    optional uint32  vesc1FBDutyCycle   = 16;
+    optional uint32  vesc2FBDutyCycle   = 17;
+    optional float   vesc1Demand    = 18;
+    optional float   vesc2Demand    = 19;
+    optional uint32  pwm1DutyCycle  = 20;
+    optional uint32  pwm2DutyCycle  = 21;
+    
+}
+
+message HyqHpu_tx_pdo {
+    optional uint32 demandPressure      = 1;
+    optional uint32 singlePumpHighLt    = 2;
+    optional uint32 singlePumpLowLt     = 3;
+    optional uint32 HPUDemandMode       = 4;
+    optional uint32 vesc1Mode   = 5;
+    optional uint32 vesc2Mode   = 6;
+    optional uint32 fan1Spd     = 7;
+    optional uint32 fan2Spd     = 8;
+    optional uint32 sysStateCmd = 9;
+
+}
