@@ -16,8 +16,8 @@ def main():
     # config_subparsers = config_parser.add_subparsers(dest='subcommand', help='Configuration subcommands')
 
     # config uri
-    config_parser.add_argument('name', type=str, help='Option name')
-    config_parser.add_argument('value', type=str, nargs='?', choices=['uri',], help='Option value (leave empty to print)')
+    config_parser.add_argument('name', type=str, choices=['uri',], help='Option name')
+    config_parser.add_argument('value', type=str, nargs='?', help='Option value (leave empty to print)')
     config_parser.set_defaults(func=context.set_config_or_print)
 
     # sdo command

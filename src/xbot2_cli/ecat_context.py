@@ -8,12 +8,13 @@ from xbot2_cli.utils import print_table, as_list, fetch_from_cache, write_to_cac
 from dataclasses import dataclass, field
 import os
 import yaml
+from typing import List, Dict
 
 @dataclass
 class Arguments:
     uri: str = ''
     id: int = -1
-    name: list[str] = field(default_factory=list)
+    name: List[str] = field(default_factory=list)
     value: str = ''
 
 class Context:
@@ -75,7 +76,7 @@ class Context:
         try:
             res = reply_cmd(master_cmd_get_slave_descr)
         except KeyError:
-            print('Failed to list IDs')
+            verbose and print('Failed to list IDs')
             return []
         ids = [int(v['robot_id']) for v in res.values()]
         verbose and print(ids)

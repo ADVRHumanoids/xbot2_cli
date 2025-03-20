@@ -1,6 +1,7 @@
 import os
 import yaml
 import time
+from typing import List, Dict
 
 def print_table(table):
     table = list(table)
@@ -41,11 +42,11 @@ def as_list(value, check_none=True):
         return value
     return [value]
 
-def fetch_from_cache(cache_file: str, key: list[str]):
+def fetch_from_cache(cache_file: str, key: List[str]):
     if not os.path.exists(cache_file):
         return None
     cache_age = time.time() - os.path.getmtime(cache_file)
-    if cache_age > 60:
+    if cache_age > 600:
         return None
     with open(cache_file, 'r') as f:
         cache = yaml.safe_load(f)
