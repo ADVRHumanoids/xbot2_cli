@@ -23,7 +23,7 @@ class Context:
         # set uri from persistent config
         uri = self.get_config('uri', 'localhost:5555')
         self.set_uri(Arguments(uri=uri))
-        set_timeout(200)
+#        set_timeout(200)
 
         # fetch sdo list from cache
         cache_file = '/tmp/xbot2_cli_cache_ecat.yaml'

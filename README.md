@@ -3,25 +3,38 @@
 
 xbot2_cli is a command-line interface (CLI) application designed to provide an easy way to interact with the XBot framework. 
 
-## Installation
+## Setup
 
-To install xbot2_cli, you can use pip. Make sure you have Python 3.6 or higher installed, then run:
+### Prerequisites
+```bash
+# install system dependencies
+sudo apt update
+sudo apt install python3-pip python3-venv
+
+# create a virtualenv for this package (mandatory on Python >= 3.12)
+cd xbot2_cli
+python3 -m venv venv/xbot2_cli
+source venv/xbot2_cli/bin/activate
+```
+
+### Installing the package
+To install xbot2_cli, you can use pip. Make sure you have sourced your virtualenv, then run:
 
 ```bash
-pip install .
+pip install -e .
 ```
 
 This will install the package along with its dependencies.
 
-Tab completion is supported via running the following line in your shell (it can be added to bashrc)
+Tab completion is supported via running the following line in your shell.
 
 ```bash
-eval "$(register-python-argcomplete xbot2)"  # note the ""!
+echo eval \"\$(register-python-argcomplete xbot2)\" >> ~/.bashrc
 ```
 
 ## Usage
 
-After installation, you can run the CLI by executing the following command in your terminal:
+Make sure you sourced the virtualenv; you can run the CLI by executing the following command in your terminal:
 
 ```bash
 xbot2
