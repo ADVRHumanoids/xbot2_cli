@@ -16,6 +16,7 @@ class Arguments:
     id: int = -1
     name: List[str] = field(default_factory=list)
     value: str = ''
+    cmd: str = ''
 
 class Context:
 
@@ -38,6 +39,13 @@ class Context:
             write_to_cache(cache_file, {'sdo_list': list(self.sdo_list)})
         else:
             self.sdo_list = self.sdo_list['sdo_list']
+
+        # cmds
+        self.cmd_dict = {
+            'CIRCULO_SAVE_PARAMS': ('Save_Params', 1702257011), 
+            'ADVRF_POWER_MOTORS_ON': ('ctrl_status_cmd', 72), 
+            'ADVRF_POWER_MOTORS_OFF': ('ctrl_status_cmd', 132),
+        }
 
     def set_config_or_print(self, args: Arguments, verbose=True):
         if args.value is None:
@@ -118,9 +126,9 @@ class Context:
         res = write_sdo(dict(zip(name, value)), id)
         self.read_sdo(args, verbose=verbose)
     
-    def save_to_flash(self, args: Arguments, verbose=True):
-        res = reply_cmd(flash_cmd_save_flash.set_bid(args.id))
-        verbose and print(res)
+    def exec_cmd(self, args: Arguments, verbose=True):
+        sdo_name, sdo_value = self.cmd_dict[args.cmd]
+        self.write_sdo(args=Arguments(id=args.id, value=sdo_value, name=sdo_name), verbose=True)
     
 
 # set_uri('kyon-mio-5375:5555')

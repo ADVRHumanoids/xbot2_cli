@@ -43,9 +43,10 @@ def main():
     sdo_write_parser.set_defaults(func=context.write_sdo)
 
     # sdo save
-    sdo_save_parser = sdo_subparsers.add_parser('save', help='Save SDOs')
-    sdo_save_parser.add_argument('--id', type=int, required=True, help='ID of the ECAT slave')
-    sdo_save_parser.set_defaults(func=context.save_to_flash)
+    cmd_parser = subparsers.add_parser('cmd', help='Send cmd via SDO')
+    cmd_parser.add_argument('cmd', type=str, choices=context.cmd_dict.keys(), help='Command name')
+    cmd_parser.add_argument('--id', type=int, required=True, help='ID of the ECAT slave')
+    cmd_parser.set_defaults(func=context.exec_cmd)
 
     # list command
     list_parser = subparsers.add_parser('list', help='List available items')
