@@ -47,7 +47,7 @@ def fetch_from_cache(cache_file: str, key: List[str]):
         return None
     with open(cache_file, 'r') as f:
         cache = yaml.safe_load(f)
-    return {k: cache[k] for k in key}
+    return {k: cache.get(k, None) for k in key}
 
 def write_to_cache(cache_file: str, data: dict):
     import os

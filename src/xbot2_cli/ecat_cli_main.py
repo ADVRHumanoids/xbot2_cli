@@ -2,6 +2,8 @@ import argparse
 import argcomplete
 from xbot2_cli.ecat_context import Context
 
+from argcomplete.completers import ChoicesCompleter
+
 def main():
 
     context = Context()
@@ -32,13 +34,15 @@ def main():
 
     # sdo read
     sdo_read_parser = sdo_subparsers.add_parser('read', help='Read SDO')
-    sdo_read_parser.add_argument('name', nargs='+', choices=context.sdo_list, help='Name of the SDO to read')
+    sdo_read_parser.add_argument('name', nargs='+', help='Name of the SDO to read') \
+        .completer=ChoicesCompleter(context.sdo_list)
     sdo_read_parser.add_argument('--id', nargs='+', type=int, help='ID of the ECAT slave')
     sdo_read_parser.set_defaults(func=context.read_sdo)
 
     # sdo write
     sdo_write_parser = sdo_subparsers.add_parser('write', help='Write SDO')
-    sdo_write_parser.add_argument('name', type=str, choices=context.sdo_list, help='name of the SDO to write')
+    sdo_write_parser.add_argument('name', type=str, help='name of the SDO to write') \
+        .completer=ChoicesCompleter(context.sdo_list)
     sdo_write_parser.add_argument('value', type=str, help='Value to write to the SDO')
     sdo_write_parser.add_argument('--id', nargs='+', type=int, help='ID of the ECAT slave')
     sdo_write_parser.set_defaults(func=context.write_sdo)

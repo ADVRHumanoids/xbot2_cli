@@ -20,15 +20,7 @@ class Arguments:
 
 class Context:
 
-    def __init__(self):
-        # set uri from persistent config
-        uri = self.get_config('uri', 'localhost:5555')
-        self.set_uri(Arguments(uri=uri))
-#        set_timeout(200)
-
-        # fetch sdo list from cache
-        self.cache_file = os.path.expanduser('~/.config/xbot2_cli/cache_ecat.yaml')
-        self.sdo_list = fetch_from_cache(self.cache_file, ['sdo_list'])['sdo_list']
+    def __init__(self, cli=True, uri=None):
 
         # cmds
         self.cmd_dict = {
@@ -37,14 +29,35 @@ class Context:
             'ADVRF_POWER_MOTORS_OFF': ('ctrl_status_cmd', 132),
         }
 
+        # set uri from persistent config
+        if uri is None:
+            uri = self.get_config('uri', 'localhost:5555')
+            self.set_uri(Arguments(uri=uri))
+        else:
+            self.set_uri(Arguments(uri=uri))
+
+        # fetch sdo list from cache
+        self.cache_file = os.path.expanduser('~/.config/xbot2_cli/cache_ecat.yaml')
+        cache_dict = fetch_from_cache(self.cache_file, ['sdo_list', 'sdo_dict'])
+        if cache_dict is not None:
+            self.sdo_list = cache_dict['sdo_list']
+            self.sdo_dict = cache_dict['sdo_dict']
+        else:
+            self.sdo_list = None 
+            self.sdo_dict = None
+
+
     def update_cache(self):
         self.sdo_list = set()
+        self.sdo_dict = dict()
         for id in self.list_id(Arguments(), verbose=False):
             if id < 0:
                 continue
+            print(id)
             sdo = self.list_sdo(Arguments(id=id), verbose=False)
+            self.sdo_dict[id] = sdo
             self.sdo_list.update(sdo)
-        write_to_cache(self.cache_file, {'sdo_list': list(self.sdo_list)})
+        write_to_cache(self.cache_file, {'sdo_list': list(self.sdo_list), 'sdo_dict': self.sdo_dict})
 
     def set_config_or_print(self, args: Arguments, verbose=True):
         if args.value is None:
