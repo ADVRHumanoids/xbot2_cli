@@ -8,6 +8,7 @@ def main():
 
     parser = argparse.ArgumentParser(description="ECAT CLI")
     parser.add_argument('--uri', type=str, required=False, help='URI of the ECAT master')
+    parser.add_argument('--update-cache', action='store_true', help='Update autocompletion cache')
 
     subparsers = parser.add_subparsers(dest='command', help='Available commands')
 
@@ -42,7 +43,7 @@ def main():
     sdo_write_parser.add_argument('--id', nargs='+', type=int, help='ID of the ECAT slave')
     sdo_write_parser.set_defaults(func=context.write_sdo)
 
-    # sdo save
+    # sdo cmd
     cmd_parser = subparsers.add_parser('cmd', help='Send cmd via SDO')
     cmd_parser.add_argument('cmd', type=str, choices=context.cmd_dict.keys(), help='Command name')
     cmd_parser.add_argument('--id', type=int, required=True, help='ID of the ECAT slave')
@@ -58,6 +59,11 @@ def main():
 
     if args.uri:
         context.set_uri(args)
+        return
+
+    if args.update_cache:
+        context.update_cache()
+        return
 
     if hasattr(args, 'func'):
         args.func(args)

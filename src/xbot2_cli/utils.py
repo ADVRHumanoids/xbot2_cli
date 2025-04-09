@@ -45,13 +45,12 @@ def as_list(value, check_none=True):
 def fetch_from_cache(cache_file: str, key: List[str]):
     if not os.path.exists(cache_file):
         return None
-    cache_age = time.time() - os.path.getmtime(cache_file)
-    if cache_age > 600:
-        return None
     with open(cache_file, 'r') as f:
         cache = yaml.safe_load(f)
     return {k: cache[k] for k in key}
 
 def write_to_cache(cache_file: str, data: dict):
+    import os
+    os.makedirs(os.path.dirname(cache_file), exist_ok=True)
     with open(cache_file, 'w') as f:
         yaml.dump(data, f)

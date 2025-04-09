@@ -27,18 +27,8 @@ class Context:
 #        set_timeout(200)
 
         # fetch sdo list from cache
-        cache_file = '/tmp/xbot2_cli_cache_ecat.yaml'
-        self.sdo_list = fetch_from_cache(cache_file, ['sdo_list'])
-        if self.sdo_list is None:
-            self.sdo_list = set()
-            for id in self.list_id(Arguments(), verbose=False):
-                if id < 0:
-                    continue
-                sdo = self.list_sdo(Arguments(id=id), verbose=False)
-                self.sdo_list.update(sdo)
-            write_to_cache(cache_file, {'sdo_list': list(self.sdo_list)})
-        else:
-            self.sdo_list = self.sdo_list['sdo_list']
+        self.cache_file = os.path.expanduser('~/.config/xbot2_cli/cache_ecat.yaml')
+        self.sdo_list = fetch_from_cache(self.cache_file, ['sdo_list'])['sdo_list']
 
         # cmds
         self.cmd_dict = {
@@ -46,6 +36,15 @@ class Context:
             'ADVRF_POWER_MOTORS_ON': ('ctrl_status_cmd', 72), 
             'ADVRF_POWER_MOTORS_OFF': ('ctrl_status_cmd', 132),
         }
+
+    def update_cache(self):
+        self.sdo_list = set()
+        for id in self.list_id(Arguments(), verbose=False):
+            if id < 0:
+                continue
+            sdo = self.list_sdo(Arguments(id=id), verbose=False)
+            self.sdo_list.update(sdo)
+        write_to_cache(self.cache_file, {'sdo_list': list(self.sdo_list)})
 
     def set_config_or_print(self, args: Arguments, verbose=True):
         if args.value is None:
