@@ -50,7 +50,7 @@ def main():
     # sdo cmd
     cmd_parser = subparsers.add_parser('cmd', help='Send cmd via SDO')
     cmd_parser.add_argument('cmd', type=str, choices=context.cmd_dict.keys(), help='Command name')
-    cmd_parser.add_argument('--id', type=int, required=True, help='ID of the ECAT slave')
+    cmd_parser.add_argument('--id', nargs='+', type=int, required=True, help='ID of the ECAT slave')
     cmd_parser.set_defaults(func=context.exec_cmd)
 
     # list command
