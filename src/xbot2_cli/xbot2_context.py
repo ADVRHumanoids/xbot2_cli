@@ -198,6 +198,41 @@ class Context:
         if not res.success:
             raise RuntimeError(res.message)
         verbose and print(f"Enabling filter: {self._str_to_bool(args.value)}")
+
+    def control_motor(self, args, verbose=True):
+        if args.enable and args.disable:
+            raise ValueError("Cannot enable and disable motors at the same time")
+        if not args.enable and not args.disable:
+            raise ValueError("Must specify either --enable or --disable")
+        
+        from xbot_msgs.srv import SetBoolList
+        cli = self.node.create_client(SetBoolList, 'xbotcore/motor_ctrl')
+        req = SetBoolList.Request()
+        req.name = args.names.split(',')
+        req.request = [args.enable] * len(req.name)
+        res: SetBoolList.Response = self.call_service(cli, req)
+        if not res.success:
+            raise RuntimeError(res.message)
+        verbose and print(f"{'Enabling' if args.enable else 'Disabling'} motors: {args.names}")
+
+    def trigger_safety(self, args, verbose=True):
+        from std_srvs.srv import Trigger
+        cli = self.node.create_client(Trigger, 'xbotcore/trigger_safety')
+        req = Trigger.Request()
+        res: Trigger.Response = self.call_service(cli, req)
+        if not res.success:
+            raise RuntimeError(res.message)
+        verbose and print("Safety triggered")
+
+    def restore_safety(self, args, verbose=True):
+        from xbot_msgs.srv import SetControlMask
+        cli = self.node.create_client(SetControlMask, 'xbotcore/joint_master/set_control_mask')
+        req = SetControlMask.Request()
+        req.ctrl_mask = 255
+        res: SetControlMask.Response = self.call_service(cli, req)
+        if not res.success:
+            raise RuntimeError(res.message)
+        verbose and print("Safety restored")
         
     def _str_to_bool(self, s):
         if s.lower() in ['true', '1']:

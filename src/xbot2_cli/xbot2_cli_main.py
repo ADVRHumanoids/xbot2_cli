@@ -77,6 +77,25 @@ def main():
     watch_stats_parser = watch_stats.add_parser('stats', help='Watch the robot stats')
     watch_stats_parser.add_argument('--num-secs', '-n', type=float, default=1, help='Number of seconds between each update')
     watch_stats_parser.set_defaults(func=ctx.watch_stats)
+
+    # Motor control
+    motor_parser = subparsers.add_parser('motor', help='Control the motors')
+    motor_subparsers = motor_parser.add_subparsers(title="subcommands", dest="subcommand")
+    motor_enable_parser = motor_subparsers.add_parser('enable', help='Enable the motors')
+    motor_enable_parser.add_argument('names', default="ALL", help='Names of the motors to control, separated by comma (default: ALL)')
+    motor_enable_parser.set_defaults(func=ctx.control_motor, enable=True, disable=False)
+    motor_disable_parser = motor_subparsers.add_parser('disable', help='Disable the motors')
+    motor_disable_parser.add_argument('names', default="ALL", help='Names of the motors to control, separated by comma (default: ALL)')
+    motor_disable_parser.set_defaults(func=ctx.control_motor, enable=False, disable=True)
+
+    # Safety trigger or restore
+    safety_parser = subparsers.add_parser('safety', help='Trigger or restore safety')
+    safety_subparsers = safety_parser.add_subparsers(title="subcommands", dest="subcommand")
+    safety_trigger_parser = safety_subparsers.add_parser('trigger', help='Trigger the safety')
+    safety_trigger_parser.set_defaults(func=ctx.trigger_safety)
+    safety_restore_parser = safety_subparsers.add_parser('restore', help='Restore the safety')
+    safety_restore_parser.set_defaults(func=ctx.restore_safety)
+                                                     
     
     argcomplete.autocomplete(parser)
 
@@ -88,8 +107,7 @@ def main():
         args.func(args)
     except TimeoutError:
         print("timeout error: check that xbot2 is running")
-    except AttributeError:
-        parser.print_help()
+
 
 if __name__ == "__main__":
     main()
