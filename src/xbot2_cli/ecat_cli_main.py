@@ -57,6 +57,10 @@ def main():
     list_parser = subparsers.add_parser('list', help='List available items')
     list_parser.set_defaults(func=context.list_id)
 
+    # describe command
+    describe_parser = subparsers.add_parser('describe', help='Show full slave description')
+    describe_parser.set_defaults(func=context.get_slave_description)
+
     argcomplete.autocomplete(parser)
 
     args = parser.parse_args()

@@ -101,6 +101,20 @@ class Context:
         ids = [int(v['robot_id']) for v in res.values()]
         verbose and print(ids)
         return ids
+
+    def get_slave_description(self, args: Arguments, verbose=True):
+        try:
+            res = reply_cmd(master_cmd_get_slave_descr)
+        except KeyError:
+            verbose and print('Failed to get slave description')
+            return {}
+        if verbose:
+            names = sorted({k for v in res.values() for k in v.keys()})
+            rows = [['id/pos'] + names]
+            for id, descr in res.items():
+                rows.append([id] + [descr.get(n, '') for n in names])
+            print_table(rows)
+        return res
     
     def list_sdo(self, args: Arguments, verbose=True):
         res = reply_cmd(SdoInfo(u'SDO_NAME').set_bid(args.id))
