@@ -67,7 +67,6 @@ def main():
 
     if args.uri:
         context.set_uri(args)
-        return
 
     if args.update_cache:
         context.update_cache()

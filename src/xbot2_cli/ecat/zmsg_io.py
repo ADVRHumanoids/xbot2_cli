@@ -63,7 +63,9 @@ class ZmsgIO(object):
     def __init__(self, uri):
         #  Prepare our context and sockets
         self.ctx = zmq.Context()
-        self.uri = uri
+        # The transport adds the tcp scheme when connecting. Accept a
+        # conventional tcp:// endpoint too, without duplicating the scheme.
+        self.uri = uri.removeprefix("tcp://")
         self.debug = False
 
     def _try_request(self, uri: str, cmd: dict):
